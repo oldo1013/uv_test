@@ -33,35 +33,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        pip install allure-pytest
+        pip install pytest-json-ctrf
 
     - name: Test with pytest
       if: always()
-      run: pytest --alluredir=allure-results
+      run: pytest --ctrf /reports/report.json
       continue-on-error: true
 
-    - name: Get Allure history
-      uses: actions/checkout@v3
-      if: always()
-      continue-on-error: true
+    - name: Publish Test Report
+      uses: ctrf-io/github-test-reporter@v1
       with:
-          ref: gh-pages
-          path: gh-pages
-
-#
-    - name: Allure Report action
-      uses: simple-elf/allure-report-action@v1.8
+        report-path: './reports/*.json'
       if: always()
-      with:
-          allure_results: allure-results
-
-    - name: Deploy Allure report to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      if: always()
-      with:
-        github_token: ${{ secrets.GH_TOKEN }}
-        publish_dir: allure-report
-        publish_branch: gh-pages
 
 
 
