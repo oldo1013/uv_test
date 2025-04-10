@@ -37,7 +37,7 @@ jobs:
 
     - name: Test with pytest
       if: always()
-      run: pytest --ctrf /reports/report.json
+      run: pytest --ctrf ./reports/report.json
       continue-on-error: true
 
     - name: Publish Test Report
