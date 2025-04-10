@@ -45,17 +45,17 @@ jobs:
 
     - name: Test with pytest
       run: |
-        python -m pytest --alluredir=results
+        python -m pytest --alluredir=allure-report
 
     - name: Generate Allure report
       run: |
-        allure generate allure-results -o results --clean
+        allure generate allure-results -o allure-report --clean
 
     - name: Publish Allure Report
       uses: actions/upload-artifact@v3
       with:
         name: allure-report
-        path: results
+        path: allure-report
 
 
 
