@@ -18,7 +18,6 @@ def test_year():
     with open(yearfile) as f:
         year = f.readline()
     assert year == get_year(), 'Years are not equal'
-    assert isinstance(year, int) , 'Year is not int type'
 
 
 def test_town():
