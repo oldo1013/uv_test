@@ -17,7 +17,7 @@ def test_name():
 def test_year():
     with open(yearfile) as f:
         year = f.readline()
-    assert year == get_year(), 'Years are not equal'
+    assert year == get_name(), 'Years are not equal'
 
 
 def test_town():
