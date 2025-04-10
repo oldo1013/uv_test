@@ -33,6 +33,30 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         pip install allure-pytest
+    - name: Install Allure
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+
+    - name: Setup Allure CLI
+      uses: simple-elf/allure-report-action@v1.8
+      with:
+        allure-version: '2.25.0'
+
     - name: Test with pytest
       run: |
-        python -m pytest --results allure-results
+        python -m pytest --alluredir=results
+
+    - name: Generate Allure report
+      run: |
+        allure generate allure-results -o results --clean
+
+    - name: Publish Allure Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-report
+        path: results
+
+
+
