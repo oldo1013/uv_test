@@ -41,11 +41,19 @@ jobs:
       continue-on-error: true
 
 #
-    - name: Allure Report action from marketplace
-      uses: simple-elf/allure-report-action@v1.7
+    - name: Allure Report action
+      uses: simple-elf/allure-report-action@v1.8
       if: always()
       with:
           allure_results: allure-results
+
+    - name: Deploy Allure report to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: always()
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: allure-report
+        publish_branch: gh-pages
 
 
 
