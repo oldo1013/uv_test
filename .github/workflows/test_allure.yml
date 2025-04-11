@@ -24,7 +24,7 @@ jobs:
           
 
       - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@v2
+        uses: simple-elf/allure-report-action
         if: always()
         id: allure-report
         with:
