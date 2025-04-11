@@ -29,7 +29,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --alluredir=reports/allure --json=report.json || true
+          pytest --alluredir=reports/allure || true
 
       - name: Upload Allure results
         uses: actions/upload-artifact@v4
@@ -41,5 +41,6 @@ jobs:
         run: |
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendDocument" \
             -F chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -F document=@reports/report.json \
             -F caption="✅ *Allure report is ready!*\n🔗 [Open build](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
         if: always()
