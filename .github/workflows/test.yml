@@ -36,15 +36,21 @@ jobs:
         pip install pytest-json-ctrf
 
     - name: Test with pytest
-      if: always()
+#      if: always()
       run: pytest --ctrf ./reports/report.json
-      continue-on-error: true
+#      continue-on-error: true
 
     - name: Publish Test Report
       uses: ctrf-io/github-test-reporter@v1
       with:
         report-path: './reports/*.json'
       if: always()
+
+    - name: Notify Telegram
+      run: |
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d text="✅ CTRF report has been generated in GitHub Actions!"
 
 
 
