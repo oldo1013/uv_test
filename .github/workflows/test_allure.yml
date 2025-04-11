@@ -31,7 +31,7 @@ jobs:
           allure_results: allure-results
           allure_history: allure-history
           keep_reports: 10
-          report_dir: allure-results # директория для сгенерированного отчета
+          report_dir: results # директория для сгенерированного отчета
 
       - name: Deploy Allure report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -47,10 +47,3 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -F chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -F text="✅ *Allure report is ready!*\n🔗 [Open build](https://oldo1013.github.io/${{ github.repository }}/${{ steps.allure-report.outputs.report_dir }}/)"
-
-      - name: Upload Allure results (optional, если не используете `allure-report-action` для генерации)
-        if: false # Отключено, так как отчет генерируется action
-        uses: actions/upload-artifact@v4
-        with:
-            name: allure-results
-            path: allure-results
