@@ -46,4 +46,4 @@ jobs:
         run: |
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -F chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -F text="✅ *Allure report is ready!*\n🔗 [Open report](https://oldo1013.github.io/uv_test/allure-report)"
+            -F text="✅ *Allure report is ready!*\n🔗 [Open report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/allure-report)"
