@@ -48,10 +48,11 @@ jobs:
 
     - name: Notify Telegram
       run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
-          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d text="✅ CTRF report has been generated in GitHub Actions!"
-      if: always()
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendDocument" \
+          -F chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -F document=@reports/report.json \
+          -F caption="✅ *CTRF report is ready!*\n🔗 [Open build](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+    if: always()
 
 
 
