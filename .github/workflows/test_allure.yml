@@ -18,6 +18,17 @@ jobs:
           pip install flake8 pytest
           pip install -r requirements.txt || true
 
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Copy Allure history from gh-pages
+        run: |
+          mkdir -p allure-history
+          cp -r gh-pages/allure-report/history allure-history || true
+
       - name: Download Allure History
         uses: actions/download-artifact@v4
         with:
