@@ -31,10 +31,10 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Copy Allure history from gh-pages
-        run: |
-          mkdir -p allure-history
-          cp -r gh-pages/allure-report/history allure-history || true
+#      - name: Copy Allure history from gh-pages
+#        run: |
+#          mkdir -p allure-history
+#          cp -r gh-pages/allure-report/history allure-history || true
 
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@v1.7
@@ -51,7 +51,7 @@ jobs:
         if: always()
         with:
           github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ${{ steps.allure-report.outputs.allure_report }}
+          publish_dir: allure_history
           publish_branch: gh-pages
 
       - name: Notify Telegram
