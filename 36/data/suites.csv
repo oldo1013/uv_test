@@ -1,0 +1,4 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"failed","Fri Apr 11 15:16:32 GMT 2025","Fri Apr 11 15:16:32 GMT 2025","0","test","test_my_new_project","","","","Testing year","Testing year in the file"
+"passed","Fri Apr 11 15:16:32 GMT 2025","Fri Apr 11 15:16:32 GMT 2025","1","test","test_my_new_project","","","","Testing town","Testing town in the file"
+"passed","Fri Apr 11 15:16:32 GMT 2025","Fri Apr 11 15:16:32 GMT 2025","0","test","test_my_new_project","","","","Testing name","Testing name in the file"
