@@ -18,6 +18,13 @@ jobs:
           pip install flake8 pytest
           pip install -r requirements.txt || true
 
+      - name: Download Allure History
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-history
+          path: allure-history
+        continue-on-error: true # Не завершать workflow, если история отсутствует
+
       - name: Run tests
         run: |
           pytest --alluredir=allure-results || true
@@ -32,6 +39,13 @@ jobs:
           allure_history: allure-history
           keep_reports: 10
           report_dir: allure-report # директория для  отчета
+
+      - name: Upload Allure History
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-history
+          path: allure-history
+        if: always() # Загружать историю даже если билд упал
 
       - name: Deploy Allure report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
