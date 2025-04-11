@@ -32,28 +32,34 @@ jobs:
           pytest --alluredir=reports/allure || true
           
 
-
-      - name: Upload Allure results
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: reports/allure
-
       - name: Generate Allure Report
-        run: |
-            allure generate allure-results --clean -o allure-report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: allure-results
+          allure_history: allure-history
+          keep_reports: 10
+          report_dir: reports/allure # директория для сгенерированного отчета
 
       - name: Deploy Allure report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: allure-report
-          publish_branch: gh-pages
+            github_token: ${{ secrets.GH_TOKEN }}
+            publish_dir: ${{ steps.allure-report.outputs.report_dir }} # Используйте выходное значение action
+            ublish_branch: gh-pages
 
       - name: Notify Telegram
+        if: always()
         run: |
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -F chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -F text="✅ *Allure report is ready!*\n🔗 [Open build](https://oldo1013.github.io/${{ github.repository }}/allure-report/)"
-        if: always()
+            -F text="✅ *Allure report is ready!*\n🔗 [Open build](https://oldo1013.github.io/${{ github.repository }}/${{ steps.allure-report.outputs.report_dir }}/)"
+
+      - name: Upload Allure results (optional, если не используете `allure-report-action` для генерации)
+        if: false # Отключено, так как отчет генерируется action
+        uses: actions/upload-artifact@v4
+        with:
+            name: allure-results
+            path: allure-results
