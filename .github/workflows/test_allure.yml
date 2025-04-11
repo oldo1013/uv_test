@@ -27,6 +27,8 @@ jobs:
 
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
         with:
           ref: gh-pages
           path: gh-pages
@@ -41,6 +43,7 @@ jobs:
         if: always()
         id: allure-report
         with:
+          gh_pages: gh-pages
           allure_results: allure-results
           allure_history: allure-history
           keep_reports: 10
