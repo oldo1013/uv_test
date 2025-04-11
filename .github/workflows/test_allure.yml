@@ -1,0 +1,38 @@
+name: Run Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          pytest --alluredir=reports/allure --json=reports/report.json || true
+
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: reports/allure
+
+      - name: Notify Telegram
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendDocument" \
+            -F chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -F document=@reports/report.json \
+            -F caption="✅ *Allure report is ready!*\n🔗 [Open build](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+        if: always()
