@@ -31,7 +31,7 @@ jobs:
           allure_results: allure-results
           allure_history: allure-history
           keep_reports: 10
-          report_dir: results # директория для сгенерированного отчета
+          allure_report: results # директория для сгенерированного отчета
 
       - name: Deploy Allure report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -39,7 +39,7 @@ jobs:
         with:
             github_token: ${{ secrets.GH_TOKEN }}
             publish_dir: ${{ steps.allure-report.outputs.report_dir }} # Используйте выходное значение action
-            ublish_branch: gh-pages
+            publish_branch: gh-pages
 
       - name: Notify Telegram
         if: always()
