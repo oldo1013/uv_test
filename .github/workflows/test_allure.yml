@@ -45,7 +45,8 @@ jobs:
         with:
           name: allure-history
           path: allure-history
-        if: always() # Загружать историю даже если билд упал
+        if: always()
+        continue-on-error: true # Загружать историю даже если билд упал
 
       - name: Deploy Allure report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
