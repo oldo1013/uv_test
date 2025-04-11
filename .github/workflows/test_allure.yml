@@ -18,12 +18,21 @@ jobs:
           pip install flake8 pytest
           pip install -r requirements.txt || true
 
+      - name: Setup allure report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: allure-results
+          allure_history: allure-history
+          keep_reports: 10
+
       - name: Run tests
         run: |
           pytest --alluredir=reports/allure --json=reports/report.json || true
 
       - name: Upload Allure results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: reports/allure
