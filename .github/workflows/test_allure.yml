@@ -38,7 +38,7 @@ jobs:
           allure_results: allure-results
           allure_history: allure-history
           keep_reports: 10
-          report_dir: allure-report # директория для  отчета
+          allure_report: allure-report # директория для  отчета
 
       - name: Upload Allure History
         uses: actions/upload-artifact@v4
@@ -53,7 +53,7 @@ jobs:
         if: always()
         with:
             github_token: ${{ secrets.GH_TOKEN }}
-            publish_dir: ${{ steps.allure-report.outputs.report_dir }} # Используйте выходное значение action
+            publish_dir: ${{ steps.allure-report.outputs.allure_report }} # Используйте выходное значение action
             publish_branch: gh-pages
 
       - name: Notify Telegram
