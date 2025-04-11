@@ -19,6 +19,12 @@ jobs:
           pip install flake8 pytest
           pip install -r requirements.txt || true
 
+      - name: Run tests
+        run: |
+          pytest --alluredir=allure-results || true
+          echo "=== Allure results content ==="
+          ls -la allure-results || echo "No allure-results found!"
+
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
         with:
@@ -29,12 +35,6 @@ jobs:
         run: |
           mkdir -p allure-history
           cp -r gh-pages/allure-report/history allure-history || true
-
-      - name: Run tests
-        run: |
-          pytest --alluredir=allure-results || true
-          echo "=== Allure results content ==="
-          ls -la allure-results || echo "No allure-results found!"
 
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@v1.7
