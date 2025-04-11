@@ -36,9 +36,9 @@ jobs:
         pip install pytest-json-ctrf
 
     - name: Test with pytest
-#      if: always()
+      if: always()
       run: pytest --ctrf ./reports/report.json
-#      continue-on-error: true
+      continue-on-error: true
 
     - name: Publish Test Report
       uses: ctrf-io/github-test-reporter@v1
