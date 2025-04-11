@@ -31,7 +31,7 @@ jobs:
           allure_results: allure-results
           allure_history: allure-history
           keep_reports: 10
-          report_dir: reports/allure # директория для сгенерированного отчета
+          report_dir: allure-results # директория для сгенерированного отчета
 
       - name: Deploy Allure report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
