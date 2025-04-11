@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
@@ -29,17 +30,9 @@ jobs:
           mkdir -p allure-history
           cp -r gh-pages/allure-report/history allure-history || true
 
-      - name: Download Allure History
-        uses: actions/download-artifact@v4
-        with:
-          name: allure-history
-          path: allure-history
-        continue-on-error: true # Не завершать workflow, если история отсутствует
-
       - name: Run tests
         run: |
           pytest --alluredir=allure-results || true
-          
 
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@v1.7
@@ -49,23 +42,15 @@ jobs:
           allure_results: allure-results
           allure_history: allure-history
           keep_reports: 10
-          allure_report: allure-report # директория для  отчета
-
-      - name: Upload Allure History
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-history
-          path: allure-history
-        if: always()
-        continue-on-error: true # Загружать историю даже если билд упал
+          allure_report: allure-report
 
       - name: Deploy Allure report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
-            github_token: ${{ secrets.GH_TOKEN }}
-            publish_dir: ${{ steps.allure-report.outputs.allure_report }} # Используйте выходное значение action
-            publish_branch: gh-pages
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ${{ steps.allure-report.outputs.allure_report }}
+          publish_branch: gh-pages
 
       - name: Notify Telegram
         if: always()
