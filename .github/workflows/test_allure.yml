@@ -54,7 +54,7 @@ jobs:
         if: always()
         with:
           github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: allure_history
+          publish_dir: allure-history
           publish_branch: gh-pages
 
       - name: Notify Telegram
